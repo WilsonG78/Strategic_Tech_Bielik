@@ -1,0 +1,48 @@
+#!/usr/bin/python3
+from flask import Flask, Response
+from picamera2 import Picamera2
+from picamera2.encoders import JpegEncoder
+from picamera2.outputs import FileOutput
+import io
+import time
+
+class CameraManager:
+    def __init__(self):
+        self.app = Flask(__name__)
+        self.picam2 = Picamera2()
+    def generate_frames(self):
+        # Configure video capture
+        video_config = self.picam2.create_video_configuration(main={"size": (640, 480)})
+        self.picam2.configure(video_config)
+
+        # Create an in-memory stream
+        stream = io.BytesIO()
+
+        # Start the camera
+        self.picam2.start()
+
+        try:
+            while True:
+                # Capture to the in-memory stream
+                stream.seek(0)
+                self.picam2.capture_file(stream, format='jpeg')
+                stream.seek(0)
+
+                # Yield the frame in the multipart format
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + stream.read() + b'\r\n')
+
+                # Clear the stream for the next frame
+                stream.seek(0)
+                stream.truncate()
+
+                # Small delay to control frame rate
+                time.sleep(1/24)
+        finally:
+            self.picam2.stop()
+
+    @app.route('/video_feed')
+    def video_feed(self):
+        return Response(self.generate_frames(),mimetype='multipart/x-mixed-replace; boundary=frame')
+    def working(self):
+        self.app.run(host='0.0.0.0', port=5000, threaded=True)
