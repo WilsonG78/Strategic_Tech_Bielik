@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-import EngineManager
+import DevastatorMotorEngineManager
 import camera_manager1
 import camera_manager1
 if __name__ == '__main__':
-    engine_manager = EngineManager.EngineManager()
+    devastator_motor_engine_manager = DevastatorMotorEngineManager.DevastatorMotorEngineManager()
     camera_manager = camera_manager1.CameraManager()
-    engine_manager.working() , camera_manager.working()
+    devastator_motor_engine_manager.working() , camera_manager.working()

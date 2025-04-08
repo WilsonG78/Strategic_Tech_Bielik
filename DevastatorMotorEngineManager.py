@@ -4,7 +4,7 @@ from typing import List
 import RPi.GPIO as gpio
 import sys, termios, tty, os, time
 
-class EngineManager:
+class DevastatorMotorEngineManager:
     '''Engine Manager is to manage the engines of the devastator
     we communicate to L298N through GPIO pins on the raspberry pi
     we use RPi.GPIO library to do so. '''
