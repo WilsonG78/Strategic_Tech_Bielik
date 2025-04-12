@@ -5,12 +5,13 @@ import RPi.GPIO as gpio
 import sys, termios, tty, os, time
 
 class DevastatorMotorEngineManager:
-    '''Engine Manager is to manage the engines of the devastator
-    we communicate to L298N through GPIO pins on the raspberry pi
-    we use RPi.GPIO library to do so. '''
+    """The DevastatorMotorEngineManager class manages the engines of the devastator robot.
+    This is achieved by interfacing with the L298N motor driver via GPIO pins on a Raspberry Pi using the RPi.GPIO library."""
+
     pins: List[int]
     direction_forward: bool = True
-    pwm_controler: gpio.PWM
+    pwm_controler1: gpio.PWM
+    pwm_controler2: gpio.PWM
     pwm_power: int
 
     def __init__(self, pins: List[int] = [25, 17, 22, 23, 24, 27]):
