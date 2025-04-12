@@ -13,8 +13,9 @@ class DevastatorMotorEngineManager:
     pwm_controler: gpio.PWM
     pwm_power: int
 
-    def __init__(self, pins: List[int] = [25,17,22,23,24]):
-        '''We set up the pins en pin is 25 GPIO physical pins are [22,11,15,16,28]'''
+    def __init__(self, pins: List[int] = [25, 17, 22, 23, 24, 27]):
+        """Initializes the motor controller by setting up GPIO pins.
+        Pin 25 is used for the enable signal, and the physical pins mapped to GPIO are [22, 11, 15, 16, 18, 13]."""
         self.pins = pins
         gpio.setmode(gpio.BCM)
         for i in pins:
