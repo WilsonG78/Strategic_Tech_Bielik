@@ -4,6 +4,7 @@ from typing import List
 import RPi.GPIO as gpio
 import sys, termios, tty, os, time
 
+
 class DevastatorMotorEngineManager:
     """The DevastatorMotorEngineManager class manages the engines of the devastator robot.
     This is achieved by interfacing with the L298N motor driver via GPIO pins on a Raspberry Pi using the RPi.GPIO library."""
