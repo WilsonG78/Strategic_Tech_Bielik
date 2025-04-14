@@ -1,0 +1,7 @@
+ruff
+Rpi.GPIO
+typing
+Flask
+picamera2
+threaded
+multiprocessing
