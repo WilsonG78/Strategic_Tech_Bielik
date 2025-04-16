@@ -4,4 +4,5 @@ typing
 Flask
 picamera2
 threaded
-multiprocessing
+pyzbar
+PIL

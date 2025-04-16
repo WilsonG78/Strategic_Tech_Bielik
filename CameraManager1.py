@@ -5,6 +5,9 @@ from picamera2.encoders import JpegEncoder
 from picamera2.outputs import FileOutput
 import io
 import time
+import threading
+
+from QRCodeManager import QRCodeManager
 
 
 class CameraManager:
@@ -13,6 +16,8 @@ class CameraManager:
         self.picam2 = Picamera2()
         self.app.add_url_rule("/video", "video_feed", self.video_feed)
 
+        self.qr_manager = QRCodeManager(self.picam2)
+        self.qr_thread = threading.Thread(target=self.qr_manager.working, daemon=True)
     def generate_frames(self):
         # Configure video capture
         video_config = self.picam2.create_video_configuration(main={"size": (640, 480)})
@@ -23,6 +28,8 @@ class CameraManager:
 
         # Start the camera
         self.picam2.start()
+        self.qr_thread.start()
+
 
         try:
             while True:
@@ -45,6 +52,7 @@ class CameraManager:
                 time.sleep(1 / 24)
         finally:
             self.picam2.stop()
+            self.qr_manager.stop()
 
     def video_feed(self):
         return Response(
